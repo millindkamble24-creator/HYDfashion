@@ -1,0 +1,15 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Spring Boot
+Hyd-Backend/target/
+
+# React/Vite
+Hyd-frontend/node_modules/
+Hyd-frontend/dist/
+
+# Environment Files
+.env
+.env.local
+application-local.properties

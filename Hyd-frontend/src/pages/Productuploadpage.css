@@ -1,0 +1,16 @@
+.form-layout{
+margin: 0;                     /* Removes default browser spacing */
+  min-height: 100vh;             /* Forces body to take full screen height */
+  display: flex;                 /* Enables flexbox layout */
+  justify-content: center;       /* Centers form horizontally */
+  align-items: center;           /* Centers form vertically */
+body-align:center;
+background: skyblue;           /* Optional: White form background */
+  padding: 30px;                 /* Optional: Padding inside the form */
+  border-radius: 8px;            /* Optional: Rounded corners */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.input-button{
+height:100px;
+background:black;
+}
