@@ -1,5 +1,6 @@
 package org.example.hydbackend.service;
 
+import org.example.hydbackend.dto.CursorResponseDto;
 import org.example.hydbackend.dto.ProductResponseDto;
 import org.example.hydbackend.entity.Product;
 import org.example.hydbackend.repo.ProductRepository;
@@ -43,11 +44,34 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Page<Product> getAllProducts(int page,int size)
-    {
-        Pageable bringpageable= PageRequest.of(page,size);
-       // Page<Product> productPage=productRepository.findAll(pageable);
-        return productRepository.findAll(bringpageable);
+    public CursorResponseDto getProducts(Long cursor){
+        List<Product> products;
+        if(cursor==null){
+            products=productRepository.findTop11ByOrderByIdAsc();
+        }
+        else{
+            products=productRepository.findTop11ByIdGreaterThanOrderByIdAsc(cursor);
+        }
+        boolean hasNext=products.size()>10;
+        if(hasNext){
+            products.remove(10);
+            List<ProductResponseDto> response = products.stream()
+                    .map(ProductResponseDto::new)
+                    .toList();
+        }
+        List<ProductResponseDto> response=
+                products.stream()
+                        .map(ProductResponseDto::new)
+                        .toList();
+
+        Long nextCursor=null;
+
+        if(!products.isEmpty()){
+            nextCursor=products.get(products.size()-1).getId();
+        }
+        return new CursorResponseDto(
+          response,nextCursor,hasNext
+        );
     }
 
     public Product getdetailsbyid(Long id){
@@ -55,5 +79,4 @@ public class ProductService {
         return productRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("file not found"));
     }
-
 }

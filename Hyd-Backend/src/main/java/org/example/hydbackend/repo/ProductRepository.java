@@ -8,5 +8,8 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long> {
-    List<Product> findAllById(Long id);
+
+    List<Product> findTop11ByOrderByIdAsc();
+    List<Product> findTop11ByIdGreaterThanOrderByIdAsc(Long cursor);
+
 }

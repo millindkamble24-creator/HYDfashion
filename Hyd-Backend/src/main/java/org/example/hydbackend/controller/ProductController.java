@@ -1,6 +1,7 @@
 package org.example.hydbackend.controller;
 
 
+import org.example.hydbackend.dto.CursorResponseDto;
 import org.example.hydbackend.entity.Product;
 import org.example.hydbackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public Page<Product> getAllproducts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "12")int size){
-        return productService.getAllProducts(page,size);
+    public CursorResponseDto getProducts(@RequestParam(required = false)Long cursor){
+        return productService.getProducts(cursor);
     }
 
     @GetMapping("/products/{id}")

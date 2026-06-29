@@ -4,28 +4,60 @@ import {useEffect,useState} from 'react';
 
 function HomePage(){
     const[products,setProducts]=useState([]);
-    const[page,setPage]=useState(0);
-    const[totalPages,setTotalPages]=useState(0);
+    const [cursor,setCursor]=useState(null);
+    const[hasNext,setHasNext]=useState(true);
+    //const[page,setPage]=useState(0);
+    //const[totalPages,setTotalPages]=useState(0);
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 useEffect(() => {
     const fetchProducts = async () => {
+        let url=`${API_URL}/api/products`;
         try {
-            const response = await fetch(
-                `${API_URL}/api/products?page=${page}&size=8`
-            );
+            const response = await fetch(url);
 
             const data = await response.json();
+            console.log(data);
+            console.log(data.nextCursor);
+            console.log(data.hasNext);
 
-            setProducts(data.content);
-            setTotalPages(data.totalPages);
+            setProducts(data.products);
+            setCursor(data.nextCursor);
+            setHasNext(data.hasNext);
+            //setTotalPages(data.totalPages);
         } catch (error) {
             console.error("Failed to fetch products:", error);
         }
     };
     fetchProducts();
-}, [page,API_URL]);
+}, [API_URL]);
 
+//load more products when scroll function
+  const loadMore = async () => {
+
+        if (!hasNext) return;
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/api/products?cursor=${cursor}`
+            );
+
+            const data = await response.json();
+
+            setProducts(prev => [...prev, ...data.products]);
+
+            setCursor(data.nextCursor);
+
+            setHasNext(data.hasNext);
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    };
 
     return(
         <div className="home-page">
@@ -52,26 +84,15 @@ useEffect(() => {
                     </div>
                     </Link>
                     ))}
-
-            </div>
-             <div className="pagination">
-
-                                        <button disabled={page===0}
-                                        onClick={()=>setPage(page-1)}
-                                        >
-                                        Previous
-                                        </button>
-                                        <span>
-                                            Page{page+1}of{totalPages}
-                                        </span>
-                                        <button
-                                        disabled={page===totalPages-1}
-                                        onClick={()=>setPage(page+1)}
-                                        >
-                                        Next
-                                        </button>
-                                        </div>
-        </div>
+                </div>
+                <div>
+           {hasNext && (
+               <button onClick={loadMore}>
+               Load More
+               </button>
+               )}
+           </div>
+           </div>
         );
     }
 
