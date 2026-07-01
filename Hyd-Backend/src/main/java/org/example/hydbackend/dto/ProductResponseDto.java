@@ -14,7 +14,9 @@ public class ProductResponseDto {
     private String name;
     private String discription;
     private Double price;
+    private String category;
     private String mainImageUrl;
+
 
 
     public ProductResponseDto(Product product) {
@@ -22,6 +24,7 @@ public class ProductResponseDto {
         this.name = product.getName();
         this.discription=product.getDescription();
         this.price = product.getPrice();
+        this.category=product.getCategory();
         this.mainImageUrl = product.getMainImageUrl();
     }
 }

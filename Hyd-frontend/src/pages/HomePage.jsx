@@ -5,7 +5,7 @@ import {useEffect,useState} from 'react';
 function HomePage(){
     const[products,setProducts]=useState([]);
     const [cursor,setCursor]=useState(null);
-    const[hasNext,setHasNext]=useState(true);
+    const[hasNext,setHasNext]=useState(false);
     //const[page,setPage]=useState(0);
     //const[totalPages,setTotalPages]=useState(0);
 const API_URL = import.meta.env.VITE_API_BASE_URL;
@@ -17,9 +17,6 @@ useEffect(() => {
             const response = await fetch(url);
 
             const data = await response.json();
-            console.log(data);
-            console.log(data.nextCursor);
-            console.log(data.hasNext);
 
             setProducts(data.products);
             setCursor(data.nextCursor);

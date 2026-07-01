@@ -24,14 +24,11 @@ public class UploadController {
             @RequestParam String name,
             @RequestParam String description,
             @RequestParam Double price,
+            @RequestParam String category,
             @RequestParam MultipartFile image) throws IOException{
 
-        System.out.println("Name: " + name);
-        System.out.println("Description: " + description);
-        System.out.println("Price: " + price);
-        System.out.println("Image: " + image.getOriginalFilename());
 
-        Product product=productService.saveProduct(name,description,price,image);
+        Product product=productService.saveProduct(name,description,price,category,image);
         return ResponseEntity.ok(product);
     }
 

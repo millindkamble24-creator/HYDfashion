@@ -31,7 +31,7 @@ public class ProductService {
     }
 
     public Product saveProduct(
-            String name, String description, Double price, MultipartFile image) throws IOException {
+            String name, String description, Double price,String category, MultipartFile image) throws IOException {
 
         String imageUrl = s3Service.uploadFile(image);
         Product product = new Product();
@@ -39,6 +39,7 @@ public class ProductService {
         product.setName(name);
         product.setDescription(description);
         product.setPrice(price);
+        product.setCategory(category);
         product.setMainImageUrl(imageUrl);
 
         return productRepository.save(product);

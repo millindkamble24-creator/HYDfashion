@@ -6,6 +6,7 @@ function UploadImage(){
     const[name,setName]=useState("");
     const[description,setDescription]=useState("");
     const[price,setPrice]=useState("");
+    const[category,setCategory]=useState("");
     const[image,setImage]=useState(null)
     const [status,setStatus]=useState('idle');
     const [message,setMessage]=useState('');
@@ -21,12 +22,18 @@ function UploadImage(){
 
    //Send the file via FormData through backend API
     const handleSubmit=async()=>{
-
+        console.log({name,description,price,category,image});
+        if(!name || !description || !price || !category || !image){
+            setStatus("error");
+            setMessage("Please fill the field");
+            return;
+            }
         const formData=new FormData();
 
         formData.append("name",name);
         formData.append("description",description);
         formData.append("price",price);
+        formData.append("category",category);
         formData.append("image",image);
 
         try{
@@ -54,21 +61,41 @@ function UploadImage(){
                 value={name}
                 onChange={(e)=>setName(e.target.value)}
                 />
-
+                <div className="product-discription">
+                    <p>Give Product Discription</p>
                 <textarea placeholder="Description"
                 value={description}
                 onChange={(e)=>setDescription(e.target.value)}
                 />
+                </div>
+                <div className="product-category">
+                    <p>Select Product Category</p>
+                <select name="category"
+                    value={category}
+                    onChange={(e)=>setCategory(e.target.value)}
+                >
+                    <option value="">Select Category</option>
+                    <option value="T-shirt">T-shirt</option>
+                    <option value="Jeans">Jeans</option>
+                    <option value="Shirt">Shirt</option>
+                </select>
+                </div>
+                <div>
+                    <p>Product Price</p>
                 <input
                     type="number"
                     placeholder="Price"
                     value={price}
                     onChange={(e)=>setPrice(e.target.value)}
                 />
+                </div>
+                <div>
+                    <p>Upload Product Image</p>
             <input
             type="file"
             onChange={handleFileChange}
             />
+            </div>
             <button
                 onClick={handleSubmit}
                 style={{marginTop:'15px', display:'block', padding: '8px 16px'}}
