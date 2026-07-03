@@ -4,10 +4,14 @@ import UploadImage  from "./pages/Productuploadform"
 import  HomePage  from "./pages/HomePage"
 import { Layout } from './components/Layout';
 import ProductPage from './pages/ProductPage';
+import { CategoryProvider } from './context/CategoryContext';
 
 function App() {
 
+
+
   return (
+      <CategoryProvider>
       <Routes>
           <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />}/>
@@ -16,6 +20,7 @@ function App() {
           <Route path="/upload" element={<UploadImage />}/>
 
       </Routes>
+      </CategoryProvider>
   );
 }
 export default App

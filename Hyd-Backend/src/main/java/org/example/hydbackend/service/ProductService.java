@@ -80,4 +80,8 @@ public class ProductService {
         return productRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("file not found"));
     }
+
+    public List<Product> getproductsbycategory(String category){
+        return productRepository.findAllByCategory(category);
+    }
 }

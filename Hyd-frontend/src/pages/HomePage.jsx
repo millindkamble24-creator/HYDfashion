@@ -1,15 +1,18 @@
 import '../styles/HomePage.css';
 import {Link} from 'react-router-dom';
 import {useEffect,useState} from 'react';
+import {useCategory} from "../context/CategoryContext";
 
 function HomePage(){
     const[products,setProducts]=useState([]);
     const [cursor,setCursor]=useState(null);
     const[hasNext,setHasNext]=useState(false);
+    const{category}=useCategory();
     //const[page,setPage]=useState(0);
     //const[totalPages,setTotalPages]=useState(0);
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
+//Home page load all products
 useEffect(() => {
     const fetchProducts = async () => {
         let url=`${API_URL}/api/products`;
@@ -29,31 +32,44 @@ useEffect(() => {
     fetchProducts();
 }, [API_URL]);
 
-//load more products when scroll function
-  const loadMore = async () => {
+//fetch products as per category type
 
-        if (!hasNext) return;
+useEffect(()=>{
+const fetchCategory=async()=>{
 
-        try {
+    if(!category) return;
+    const response=await fetch(
+        `${API_URL}/api/products/category/${category}`
+        );
+    const data=await response.json();
+    setProducts(data);
+    setHasNext(false);
+    };
+fetchCategory();
+},[category,API_URL]);
 
-            const response = await fetch(
-                `${API_URL}/api/products?cursor=${cursor}`
-            );
+const loadMore=async()=>{
+         if (!hasNext) return;
 
-            const data = await response.json();
+            try {
 
-            setProducts(prev => [...prev, ...data.products]);
+                const response = await fetch(
+                    `${API_URL}/api/products?cursor=${cursor}`
+                );
 
-            setCursor(data.nextCursor);
+                const data = await response.json();
 
-            setHasNext(data.hasNext);
+                setProducts(prev => [...prev, ...data.products]);
 
-        } catch (error) {
+                setCursor(data.nextCursor);
 
-            console.error(error);
+                setHasNext(data.hasNext);
 
-        }
+            } catch (error) {
 
+                console.error(error);
+
+            }
     };
 
     return(

@@ -12,4 +12,5 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     List<Product> findTop11ByOrderByIdAsc();
     List<Product> findTop11ByIdGreaterThanOrderByIdAsc(Long cursor);
 
+    List<Product> findAllByCategory(String category);
 }

@@ -1,27 +1,29 @@
 import "./Navbar.css"
+import { useCategory } from "../context/CategoryContext";
 
 export function Navbar(){
+
+    const {setCategory}=useCategory();
+    const NAV_CATEGORIES=[
+        "T-shirt",
+        "Jeans",
+        "Shirts"
+        ];
+
     return(
         <div className="nav-main">
             <ul className="nav-ul">
-                <li className="nav-li">
-            <a className="nav-div" href="www.google.com">
-                T-Shirt
-            </a>
-            </li>
-            <li className="nav-li">
-                <a className="nav-div">
-                    Jeans
-                </a>
-            </li>
-              <li>
-                  <a className="nav-div">
-                      Shirts
-                  </a>
-              </li>
+                    {NAV_CATEGORIES.map(category => (
+                        <li className="nav-li" key={category}>
+                        <button
+                            className="nav-div"
+                            onClick={()=>setCategory(category)}
+                        >
+                            {category}
+                        </button>
+                        </li>
+                    ))}
             </ul>
-            </div>
+        </div>
         );
-
-
     }
