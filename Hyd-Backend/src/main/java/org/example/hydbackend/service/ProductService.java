@@ -82,6 +82,10 @@ public class ProductService {
     }
 
     public List<Product> getproductsbycategory(String category){
-        return productRepository.findAllByCategory(category);
+        return productRepository.findAllByCategoryIgnoreCase(category);
+    }
+
+    public List<Product> getproductsbykeywordorcategory(String keyword,String category){
+        return productRepository.searchProducts(keyword,category);
     }
 }

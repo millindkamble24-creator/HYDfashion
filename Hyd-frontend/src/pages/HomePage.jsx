@@ -2,12 +2,14 @@ import '../styles/HomePage.css';
 import {Link} from 'react-router-dom';
 import {useEffect,useState} from 'react';
 import {useCategory} from "../context/CategoryContext";
+import {useSearch} from "../context/SearchContext";
 
 function HomePage(){
-    const[products,setProducts]=useState([]);
+    const [products,setProducts]=useState([]);
     const [cursor,setCursor]=useState(null);
-    const[hasNext,setHasNext]=useState(false);
-    const{category}=useCategory();
+    const [hasNext,setHasNext]=useState(false);
+    const {category}=useCategory();
+    const {search,searchTrigger}=useSearch();
     //const[page,setPage]=useState(0);
     //const[totalPages,setTotalPages]=useState(0);
 const API_URL = import.meta.env.VITE_API_BASE_URL;
@@ -71,6 +73,28 @@ const loadMore=async()=>{
 
             }
     };
+
+    //working of search Enginee
+    useEffect(()=>{
+        if(search.trim()==="")return;
+        let url= `${API_URL}/api/products/search?`;
+        const params=[];
+        if(search.trim()){
+            params.push(`keyword=${encodeURIComponent(search)}`);
+            }
+        if(category && category.trim()){
+            params.push(`category=${encodeURIComponent(category)}`);
+            }
+        url +=params.join("&");
+        console.log(url);
+        const fetchSearch=async()=>{
+            const response=await fetch(url);
+                const data=await response.json();
+                setProducts(data);
+                setHasNext(false);
+            }
+        fetchSearch();
+        },[searchTrigger]);
 
     return(
         <div className="home-page">

@@ -39,4 +39,15 @@ public class ProductController {
         return productService.getproductsbycategory(category);
     }
 
+    @GetMapping("/products/search")
+    public List<Product> getProductBykeywordorcategory(@RequestParam(required = false) String keyword,@RequestParam(required = false) String category){
+        if(keyword !=null && keyword.isBlank()){
+            keyword=null;
+        }
+        if(category !=null && category.isBlank()){
+            category=null;
+        }
+        return productService.getproductsbykeywordorcategory(keyword,category);
+    }
+
 }
