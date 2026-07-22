@@ -5,9 +5,9 @@ import { Layout } from './components/Layout';
 import ProductPage from './pages/ProductPage';
 import { CategoryProvider } from './context/CategoryContext';
 import { SearchProvider } from './context/SearchContext';
+import RegisterPage from './pages/RegisterPages';
 
 function App() {
-
 
   return (
       <SearchProvider>
@@ -18,7 +18,7 @@ function App() {
           <Route path="product/:id" element={<ProductPage />}/>
           </Route>
           <Route path="/upload" element={<UploadImage />}/>
-
+          <Route path="/register" element={<RegisterPage />}/>
       </Routes>
       </CategoryProvider>
       </SearchProvider>
