@@ -23,7 +23,7 @@ const handleChange=(event)=>{
 const handleSubmit=async(event)=>{
     event.preventDefault();
     //check if passwords match
-    if(formData.password!== formData.confirmPassowrd){
+    if(formData.password !== formData.confirmPassword){
         setMessage("Password do not match");
         return
         }
@@ -34,7 +34,8 @@ const handleSubmit=async(event)=>{
             middleName:formData.middleName,
             lastName:formData.lastName,
             email:formData.email,
-            password:formData.password
+            password:formData.password,
+            confirmPassword:formData.confirmPassword
             });
         setMessage(message);
         //Clear form after successful registration
